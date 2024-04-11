@@ -49,7 +49,7 @@ class ESM2Embedder(CustomEmbedder):
         device = "cuda:0" if torch.cuda.is_available() else "cpu"
         model.to(device)
 
-        batch_labels, batch_strs, batch_tokens = batch_converter(('', seq) for seq in sequences)
+        batch_labels, batch_strs, batch_tokens = batch_converter([('', seq) for seq in sequences])
         batch_lens = (batch_tokens != alphabet.padding_idx).sum(1)
 
         with torch.no_grad():
