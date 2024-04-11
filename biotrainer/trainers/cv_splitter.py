@@ -120,6 +120,7 @@ class CrossValidationSplitter:
                 kf = RepeatedStratifiedKFold(n_splits=k, n_repeats=repeat)
             else:
                 kf = StratifiedKFold(n_splits=k)
+                ys = [1 if 1 in smaple else 0 for smaple in ys] # quick fix to deal with startified split
             # Change continuous values to bins for stratified split
             if self._protocol in Protocol.regression_protocols():
                 ys = self._continuous_values_to_bins(ys)
