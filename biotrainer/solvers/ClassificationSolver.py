@@ -14,6 +14,7 @@ class ClassificationSolver(Solver):
         self.num_classes = kwargs['num_classes']
         task = "multiclass" if self.num_classes > 2 else "binary"
         self.acc = Accuracy(task=task, average="micro", num_classes=self.num_classes)
+        self.bacc = Accuracy(task='multiclass', average="macro", num_classes=self.num_classes)
 
         self.macro_precision = Precision(task=task, average="macro", num_classes=self.num_classes)
         self.micro_precision = Precision(task=task, average="micro", num_classes=self.num_classes)
@@ -38,6 +39,7 @@ class ClassificationSolver(Solver):
             return self._compute_metric(metric, predicted=predicted, labels=labels)
 
         metrics_dict = {'accuracy': _compute_metric(self.acc).item()}
+        metrics_dict['balanced_accuracy'] = _compute_metric(self.bacc).item()
 
         # Multi-class prediction
         if self.num_classes > 2:
