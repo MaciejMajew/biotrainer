@@ -16,7 +16,8 @@ class Protocol(Enum):
         return [Protocol.residue_to_class,
                 Protocol.residues_to_class,
                 Protocol.sequence_to_class,
-                Protocol.sequence_to_value]
+                Protocol.sequence_to_value,
+                Protocol.residues_to_value]
 
     @staticmethod
     def classification_protocols() -> List[Protocol]:
