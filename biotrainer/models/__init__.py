@@ -7,7 +7,7 @@ from typing import Dict, Set, Any, Optional
 from .CNN import CNN
 from .LogReg import LogReg
 from .FNN import FNN, DeeperFNN
-from .LightAttention import LightAttention
+from .LightAttention import LightAttention, LightAttentionRegressor
 from .model_params import count_parameters
 
 from ..protocols import Protocol
@@ -23,6 +23,9 @@ __MODELS = {
     },
     Protocol.residues_to_class: {
         'LightAttention': LightAttention,
+    },
+    Protocol.residues_to_value: {
+        'LightAttentionRegressor': LightAttentionRegressor,
     },
     Protocol.sequence_to_class: {
         'FNN': FNN,

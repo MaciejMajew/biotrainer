@@ -35,3 +35,6 @@ class SequenceEmbeddingsRegressionDataset(__EmbeddingsDataset):
         x = self.inputs[index].float()
         y = self.targets[index].float()
         return seq_id, x, y
+
+class ResidueEmbeddingsRegressionDataset(SequenceEmbeddingsRegressionDataset):
+    pass

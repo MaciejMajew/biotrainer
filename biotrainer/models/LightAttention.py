@@ -60,3 +60,43 @@ class LightAttention(nn.Module):
         o = torch.cat([o1, o2], dim=-1)  # [batchsize, 2*embeddings_dim]
         o = self.linear(o)  # [batchsize, 32]
         return self.output(o)  # [batchsize, output_dim]
+    
+class LightAttentionRegressor(nn.Module):
+    def __init__(self, n_features: int, dropout_rate=0.25, kernel_size=9, conv_dropout: float = 0.25,
+                 **kwargs
+                 ):
+        super(LightAttentionRegressor, self).__init__()
+
+        self.feature_convolution = nn.Conv1d(n_features, n_features, kernel_size, stride=1,
+                                             padding=kernel_size // 2)
+        self.attention_convolution = nn.Conv1d(n_features, n_features, kernel_size, stride=1,
+                                               padding=kernel_size // 2)
+
+        self.softmax = nn.Softmax(dim=-1)
+
+        self.dropout = nn.Dropout(conv_dropout)
+
+        self.linear = nn.Sequential(
+            nn.Linear(2 * n_features, 32),
+            nn.Dropout(dropout_rate),
+            nn.ReLU(),
+            nn.BatchNorm1d(32)
+        )
+
+        self.output = nn.Linear(32, 1)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        mask = x.sum(dim=-1) != utils.SEQUENCE_PAD_VALUE
+
+        x = x.permute(0, 2, 1)
+        o = self.feature_convolution(x)
+        o = self.dropout(o)
+        attention = self.attention_convolution(x)
+
+        attention = attention.masked_fill(mask[:, None, :] == False, -1e9)
+
+        o1 = torch.sum(o * self.softmax(attention), dim=-1)
+        o2, _ = torch.max(o, dim=-1)
+        o = torch.cat([o1, o2], dim=-1)
+        o = self.linear(o)
+        return self.output(o)

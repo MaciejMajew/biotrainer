@@ -3,6 +3,7 @@ from .Solver import Solver
 from .solver_utils import get_mean_and_confidence_range
 from .ResidueClassificationSolver import ResidueClassificationSolver
 from .ResiduesClassificationSolver import ResiduesClassificationSolver
+from .ResiduesRegressionSolver import ResiduesRegressionSolver
 from .SequenceClassificationSolver import SequenceClassificationSolver
 from .SequenceRegressionSolver import SequenceRegressionSolver
 
@@ -11,6 +12,7 @@ from ..protocols import Protocol
 __SOLVERS = {
     Protocol.residue_to_class: ResidueClassificationSolver,
     Protocol.residues_to_class: ResiduesClassificationSolver,
+    Protocol.residues_to_value: ResiduesRegressionSolver,
     Protocol.sequence_to_class: SequenceClassificationSolver,
     Protocol.sequence_to_value: SequenceRegressionSolver,
 }

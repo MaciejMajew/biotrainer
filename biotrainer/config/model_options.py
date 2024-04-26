@@ -26,6 +26,8 @@ class ModelChoice(ModelOption, ConfigOption):
     def default_value(self) -> Union[str, int, float, bool, Any]:
         if self._protocol == Protocol.residues_to_class:
             return "LightAttention"
+        elif self._protocol == Protocol.residues_to_value:
+            return "LightAttentionRegressor"
         else:
             return "FNN"
 
