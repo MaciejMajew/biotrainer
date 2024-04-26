@@ -33,7 +33,7 @@ class TargetManager:
     # Interaction operations
     interaction_operations = {
         "multiply": lambda embedding_left, embedding_right: torch.mul(embedding_left, embedding_right),
-        "concat": lambda embedding_left, embedding_right: torch.concat([embedding_left, embedding_right])
+        "concat": lambda embedding_left, embedding_right: torch.concat([embedding_left, embedding_right], dim=1)
     }
 
     def __init__(self, protocol: Protocol, sequence_file: str,
