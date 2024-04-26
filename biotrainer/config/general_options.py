@@ -94,7 +94,7 @@ class Interaction(GeneralOption, ConfigOption):
 
     @classproperty
     def allowed_protocols(self) -> List[Protocol]:
-        return [Protocol.sequence_to_class, Protocol.sequence_to_value]
+        return [Protocol.sequence_to_class, Protocol.sequence_to_value, Protocol.residues_to_value]
 
     @classproperty
     def required(self) -> bool:
